@@ -13,9 +13,35 @@
                     {
                         "name": "David",
                         "num": 13
+                    },
+                    {
+                        "name": "Emerson",
+                        "num": 11
+                    },
+                    {
+                        "name": "Joe",
+                        "num": 1
+                    },
+                    {
+                        "name": "Erik",
+                        "num": 3
+                    },
+                    {
+                        "name": "Nathan",
+                        "num": 30
                     }
                 ],
                 GK: {},
+                CBL: {},
+                CBR: {},
+                HBL: {},
+                HBR: {},
+                CDM: {},
+                LM: {},
+                RM: {},
+                CAM: {},
+                HF: {},
+                LF: {},
                 Selected: {}
             };
 
@@ -23,16 +49,35 @@
                 // Check if there is an active player
                 // or not.
                 if (playerCard.classList.contains("pcactive") === false) {
-                    playerCard.classList.toggle("pcactive");
                     var selPlay = playerCard.children["name"].textContent;
                     // alert('selected: ' + selPlay)
+                    GameData.Selected = GameData.Players.find(x => x.name === selPlay);
                 } else {
                     // alert('no one selected.');
-                    playerCard.classList.toggle("pcactive");
+                    GameData.Selected = null;
                 }
+                var playercards = Array.from(document.getElementById("bench").children);
+                playercards.forEach(eachPDiv => {
+
+                    if (eachPDiv.classList.contains("playercard"))         {
+                        // each player - if not selected fix style.
+                        const innerDiv = eachPDiv.querySelector('#name');
+                        if (GameData.Selected && innerDiv.innerHTML 
+                            === GameData.Selected.name) {
+                                eachPDiv.classList.add("pcactive");
+                            
+                            } else {
+                                eachPDiv.classList.remove("pcactive");
+                            }
+
+                    }
+
+                });
             }
             function assign(fieldSpot) {
-
+                // Apply selected player to the selected field Position.
+                fieldSpot.classList.add("fieldactive");
+                fieldSpot.innerHTML = GameData.Selected.name;
             }
         </script>
     </head>
@@ -42,51 +87,42 @@
             <span>Total Game Time</span>
         </div>
         <div class="flexrow">
-        <div class="bench">
+        <div class="bench" id="bench">
             <div class="sectiontitle">Bench</div>
             <script lang="javacsript">
-                
-                const players = document.querySelectorAll('.player');
 
-        players.forEach(player => {
-            let timer = null;
-            let count = 0;
+                var bench = document.getElementById('bench');
+        GameData.Players.forEach(player => {
 
-            player.addEventListener('click', () => {
-                if (timer) {
-                    clearInterval(timer);
-                    timer = null;
-                } else {
-                    timer = setInterval(() => {
-                        count++;
-                        player.textContent = count;
-                    }, 1000);
-                }
+            var d = document.createElement("div");
+            
+            d.innerHTML = "<div id='name'>" 
+                + player.name 
+                + "</div><div id='playtime'>0</div>";
+            d.classList.add("playercard");
+            d.addEventListener('click', () => {
+
+                togglePlayer(d);
+
             });
+            bench.appendChild(d);
         });
                 
             </script>
-            <div class="playercard" onclick="togglePlayer(this)">
-                <div id="name">David</div>
-                <div>6</div>
-            </div>
-            <div class="playercard" onclick="togglePlayer(this)">
-                <div id="name">Kaleb</div>
-                <div>6</div>
-            </div>
-        </div>
+        <!-- End of Bench -->  
+      </div>
         <div id='field' class="field">
             <div class="fieldplayer gk inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer hf inactive"></div>
-            <div class="fieldplayer lf inactive"></div>
-            <div class="fieldplayer cam inactive"></div>
-            <div class="fieldplayer lm inactive"></div>
-            <div class="fieldplayer cdm inactive"></div>
-            <div class="fieldplayer rm inactive"></div>
-            <div class="fieldplayer lhb inactive"></div>
-            <div class="fieldplayer cbl inactive"></div>
-            <div class="fieldplayer cbr inactive"></div>
-            <div class="fieldplayer rhb inactive"></div>
+            <div class="fieldplayer hf inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer lf inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer cam inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer lm inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer cdm inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer rm inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer lhb inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer cbl inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer cbr inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer rhb inactive" onclick="assign(this)"></div>
         </div>
         <div>Game Summary</div>
         </div>

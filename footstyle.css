@@ -40,6 +40,9 @@ div {
 .pcactive {
     background-color: red;
 }
+.fieldactive {
+    background-color: darkblue;
+}
 
 .gk {
    left: 50px;
