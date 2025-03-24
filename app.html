@@ -45,11 +45,26 @@
         <div class="bench">
             <div class="sectiontitle">Bench</div>
             <script lang="javacsript">
-                foreach (x in GameData.Players) {
-                    var newPlayerCard = document.createElement("div");    
-                    newPlayerCard.innerHTML = "YAY GAY!";
+                
+                const players = document.querySelectorAll('.player');
 
+        players.forEach(player => {
+            let timer = null;
+            let count = 0;
+
+            player.addEventListener('click', () => {
+                if (timer) {
+                    clearInterval(timer);
+                    timer = null;
+                } else {
+                    timer = setInterval(() => {
+                        count++;
+                        player.textContent = count;
+                    }, 1000);
                 }
+            });
+        });
+                
             </script>
             <div class="playercard" onclick="togglePlayer(this)">
                 <div id="name">David</div>
