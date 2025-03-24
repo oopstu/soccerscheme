@@ -1,0 +1,91 @@
+
+body {
+  background-color: powderblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+h1 {
+  color: blue;
+}
+p {
+  color: red;
+}
+div {
+    margin: 5px;
+}
+.flexrow {
+    display: flex;
+    flex-direction: row;
+}
+.field {
+    height: 699px;
+    width: 516px;
+    background-image: url('soccer-field.jpg');    
+}
+.fieldplayer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+.inactive {
+    background-color: white;
+}
+
+.pcactive {
+    background-color: red;
+}
+
+.gk {
+   left: 50px;
+   top: 325px; 
+}
+.hf {
+    top: 170px;
+    left: 452px;
+}
+.lf {
+    top: 350px;
+    left: 452px;
+}
+.cam {
+    top: 190px;
+    left: 376px;
+}
+.rm {
+    top: 310px;
+    left: 302px;
+}
+.lm {
+    top: -100px;
+    left: 302px;
+}
+.cdm {
+    top: 100px;
+    left: 250px;
+}
+.cbl {
+    top: -130px;
+    left: 120px;
+}
+.cbr {
+    top: 30px;
+    left: 120px;
+}
+.lhb {
+    top: -170px;
+    left: 160px
+}
+.rhb {
+    top: 70px;
+    left: 160px;
+}
+.playercard {
+    border: 1px solid red;
+
+}

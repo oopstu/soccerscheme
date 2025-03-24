@@ -1,0 +1,82 @@
+<htnl>
+    <head>
+        <title>Footyball</title>
+        <link rel="stylesheet" href="footstyle.css">
+        <script lang="javacsript">
+
+            var GameData = {
+                Players: [
+                    {
+                        "name": "Kaleb",
+                        "num": 0
+                    },
+                    {
+                        "name": "David",
+                        "num": 13
+                    }
+                ],
+                GK: {},
+                Selected: {}
+            };
+
+            function togglePlayer(playerCard) {
+                // Check if there is an active player
+                // or not.
+                if (playerCard.classList.contains("pcactive") === false) {
+                    playerCard.classList.toggle("pcactive");
+                    var selPlay = playerCard.children["name"].textContent;
+                    // alert('selected: ' + selPlay)
+                } else {
+                    // alert('no one selected.');
+                    playerCard.classList.toggle("pcactive");
+                }
+            }
+            function assign(fieldSpot) {
+
+            }
+        </script>
+    </head>
+    <body>
+        <div class="flexrow">
+            <span>Play</span>
+            <span>Total Game Time</span>
+        </div>
+        <div class="flexrow">
+        <div class="bench">
+            <div class="sectiontitle">Bench</div>
+            <script lang="javacsript">
+                foreach (x in GameData.Players) {
+                    var newPlayerCard = document.createElement("div");    
+                    newPlayerCard.innerHTML = "YAY GAY!";
+
+                }
+            </script>
+            <div class="playercard" onclick="togglePlayer(this)">
+                <div id="name">David</div>
+                <div>6</div>
+            </div>
+            <div class="playercard" onclick="togglePlayer(this)">
+                <div id="name">Kaleb</div>
+                <div>6</div>
+            </div>
+        </div>
+        <div id='field' class="field">
+            <div class="fieldplayer gk inactive" onclick="assign(this)"></div>
+            <div class="fieldplayer hf inactive"></div>
+            <div class="fieldplayer lf inactive"></div>
+            <div class="fieldplayer cam inactive"></div>
+            <div class="fieldplayer lm inactive"></div>
+            <div class="fieldplayer cdm inactive"></div>
+            <div class="fieldplayer rm inactive"></div>
+            <div class="fieldplayer lhb inactive"></div>
+            <div class="fieldplayer cbl inactive"></div>
+            <div class="fieldplayer cbr inactive"></div>
+            <div class="fieldplayer rhb inactive"></div>
+        </div>
+        <div>Game Summary</div>
+        </div>
+        <div class="flexrow">
+        <div>Action Buttons</div>
+    </div>
+</body>
+</htnl>
