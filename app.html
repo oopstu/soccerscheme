@@ -1,4 +1,5 @@
 <htnl>
+
     <head>
         <title>Footyball</title>
         <link rel="stylesheet" href="footstyle.css">
@@ -12,6 +13,14 @@
                     },
                     {
                         "name": "David",
+                        "num": 13
+                    },
+                    {
+                        "name": "Parker",
+                        "num": 13
+                    },
+                    {
+                        "name": "Porter",
                         "num": 13
                     },
                     {
@@ -42,10 +51,13 @@
                 CAM: {},
                 HF: {},
                 LF: {},
-                Selected: {}
+                Selected: {},
+                ReadySubs: [],
+                isStarted: false
             };
 
             function togglePlayer(playerCard) {
+
                 // Check if there is an active player
                 // or not.
                 if (playerCard.classList.contains("pcactive") === false) {
@@ -56,78 +68,256 @@
                     // alert('no one selected.');
                     GameData.Selected = null;
                 }
+
                 var playercards = Array.from(document.getElementById("bench").children);
                 playercards.forEach(eachPDiv => {
 
-                    if (eachPDiv.classList.contains("playercard"))         {
+                    if (eachPDiv.classList.contains("playercard")) {
                         // each player - if not selected fix style.
                         const innerDiv = eachPDiv.querySelector('#name');
-                        if (GameData.Selected && innerDiv.innerHTML 
+                        if (GameData.Selected && innerDiv.innerHTML
                             === GameData.Selected.name) {
-                                eachPDiv.classList.add("pcactive");
-                            
-                            } else {
-                                eachPDiv.classList.remove("pcactive");
-                            }
+                            eachPDiv.classList.add("pcactive");
+
+                        } else {
+                            eachPDiv.classList.remove("pcactive");
+                        }
 
                     }
 
                 });
             }
+            
+            function startTimer() {
+                alert('starting game');
+                GameData.isStarted = true;
+            }
+
+            function makeSubs() {
+            
+                GameData.ReadySubs.forEach(x => {
+                    var fieldSpot = document.getElementById(x.position);
+                    GameData.Selected = GameData.Players.find(z => z.name === x.name);
+                    SetPlayerPositionOnField(fieldSpot);
+                    clearPendingSub(fieldSpot);
+                });
+
+                GameData.ReadySubs = [];
+
+            }
+
+            function clearPendingSub(fieldSpot) {
+                var circle = fieldSpot.querySelector('#icon');
+                circle.classList.remove("subadded");
+
+                var nameElement = fieldSpot.querySelector('#subname');
+                nameElement.innerHTML = "";
+            }
+
+            function saveStats() {
+                alert('Saving: ' + JSON.stringify(GameData));
+            }
+
+            function storeAll() {
+                localStorage.setItem('footydata', JSON.stringify(GameData));
+            }
+
             function assign(fieldSpot) {
-                // Apply selected player to the selected field Position.
-                fieldSpot.classList.add("fieldactive");
-                fieldSpot.innerHTML = GameData.Selected.name;
+
+                if (GameData.isStarted) {
+                
+//Queue up a sub.
+                var circle = fieldSpot.querySelector('#icon');
+                circle.classList.add("subadded");
+
+                var nameElement = fieldSpot.querySelector('#subname');
+                nameElement.innerHTML = GameData.Selected.name;
+
+                GameData.ReadySubs.push({ name: GameData.Selected.name, position: fieldSpot.id }); // id has to be a valid spot.
+
+
+                } else {
+// Perform initial assignments.
+                    SetPlayerPositionOnField(fieldSpot);
+            }
+            }
+
+            function SetPlayerPositionOnField(fieldSpot) {
+
+                    // Apply selected player to the selected field Position.
+                var circle = fieldSpot.querySelector('#icon');
+                circle.classList.add("fieldactive");
+
+                var nameElement = fieldSpot.querySelector('#name');
+
+                // if nameElement has innerHTML we need to clear that players 
+                // bench position!
+                if (nameElement.innerHTML) {
+                    ClearPlayerPosition(nameElement.innerHTML);
+                }
+
+                nameElement.innerHTML = GameData.Selected.name;
+
+                GameData[fieldSpot.id] = GameData.Selected;
+
+                SetPlayerPositionOnBench(GameData.Selected.name, fieldSpot.id);
+
+            
+                if (fieldSpot.id !== "HF" && GameData.HF === GameData.Selected) {
+                    unassign("HF");    
+                }
+                if (fieldSpot.id !== "LF" && GameData.LF === GameData.Selected) {
+                    unassign("LF");    
+                }
+                if (fieldSpot.id !== "CAM" && GameData.CAM === GameData.Selected) {
+                    unassign("CAM");    
+                }
+                if (fieldSpot.id !== "CDM" && GameData.CDM === GameData.Selected) {
+                    unassign("CDM");    
+                }
+                if (fieldSpot.id !== "LM" && GameData.LM === GameData.Selected) {
+                    unassign("LM");    
+                }
+                if (fieldSpot.id !== "RHB" && GameData.RHB === GameData.Selected) {
+                    unassign("RHB");    
+                }
+                if (fieldSpot.id !== "LHB" && GameData.LHB === GameData.Selected) {
+                    unassign("LHB");    
+                }
+                if (fieldSpot.id !== "CBR" && GameData.CBR === GameData.Selected) {
+                    unassign("CBR");    
+                }
+                if (fieldSpot.id !== "CBL" && GameData.CBL === GameData.Selected) {
+                    unassign("CBL");    
+                }
+                if (fieldSpot.id !== "GK" && GameData.GK === GameData.Selected) {
+                    unassign("GK");    
+                }
+            }
+
+            function ClearPlayerPosition(playerName) {
+                var currentPlayerInPosition = GameData.Players.find(x => x.name === playerName);                
+                currentPlayerInPosition.position = "";
+                SetPlayerPositionOnBench(playerName, "");
+            }
+
+            function SetPlayerPositionOnBench(playername, position) {
+                var wholeBench = document.getElementById('bench');
+
+                var playerCard = wholeBench.querySelector('#' + playername + ' #pos');
+                playerCard.innerHTML = position;
+            }
+
+            function unassign(elementid) {
+                GameData[elementid] = null; // Clear the active player in this position.
+
+                var selectedElement = document.getElementById(elementid);
+                var nameElement = selectedElement.querySelector('#name');
+                nameElement.innerHTML = "";
+                var circle = fieldSpot.querySelector('#icon');
+                circle.classList.remove("fieldactive");
+
+            }
+
+            function renderBench() {
+                var bench = document.getElementById('bench');
+                GameData.Players.forEach(player => {
+
+                    var d = document.createElement("div");
+                    d.id = player.name;
+                    d.innerHTML = "<div id='name'>"
+                        + player.name
+                        + "</div><div id='playtime'>0</div><div id='pos'></div>";
+                    d.classList.add("playercard");
+                    d.addEventListener('click', () => {
+
+                        togglePlayer(d);
+
+                    });
+                    bench.appendChild(d);
+                });
             }
         </script>
     </head>
+
     <body>
         <div class="flexrow">
             <span>Play</span>
             <span>Total Game Time</span>
         </div>
         <div class="flexrow">
-        <div class="bench" id="bench">
-            <div class="sectiontitle">Bench</div>
-            <script lang="javacsript">
-
-                var bench = document.getElementById('bench');
-        GameData.Players.forEach(player => {
-
-            var d = document.createElement("div");
-            
-            d.innerHTML = "<div id='name'>" 
-                + player.name 
-                + "</div><div id='playtime'>0</div>";
-            d.classList.add("playercard");
-            d.addEventListener('click', () => {
-
-                togglePlayer(d);
-
-            });
-            bench.appendChild(d);
-        });
+            <div class="bench" id="bench">
+                <div class="sectiontitle">Bench</div>
+                <script lang="javacsript">
+                    renderBench(); 
+                </script>
+                <!-- End of Bench -->
+            </div>
+            <div id='field' class="field">
+                <div id="GK" class="fieldposition gk" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
                 
-            </script>
-        <!-- End of Bench -->  
-      </div>
-        <div id='field' class="field">
-            <div class="fieldplayer gk inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer hf inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer lf inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer cam inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer lm inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer cdm inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer rm inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer lhb inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer cbl inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer cbr inactive" onclick="assign(this)"></div>
-            <div class="fieldplayer rhb inactive" onclick="assign(this)"></div>
-        </div>
-        <div>Game Summary</div>
+                <div id="HF" class="fieldposition hf" onclick="assign(this)">
+                    <div id="name" class="fieldname">&nbsp;</div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="LF" class="fieldposition lf" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="CAM" class="fieldposition cam" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="LM" class="fieldposition lm" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="CDM" class="fieldposition cdm" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="RM" class="fieldposition rm" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="LHB" class="fieldposition lhb" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="CBL" class="fieldposition cbl" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="CBR" class="fieldposition cbr" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+                <div id="RHB" class="fieldposition rhb" onclick="assign(this)">
+                    <div id="name" class="fieldname"></div>
+                        <div id="icon" class="fieldplayer inactive">0</div>
+                    <div id="subname" class="subname"></div>
+                </div> 
+            </div>
+            <div>Game Summary</div>
         </div>
         <div class="flexrow">
-        <div>Action Buttons</div>
-    </div>
-</body>
+            <div>Action Buttons</div>
+            <button onclick='startTimer()'>Start</button>
+            <button onclick='makeSubs()'>SUBS</button>
+            <button onclick='saveStats()'>Save Data</button>
+        </div>
+    </body>
 </htnl>

@@ -25,6 +25,10 @@ div {
     width: 516px;
     background-image: url('soccer-field.jpg');    
 }
+.fieldposition {
+    position: relative;
+    width: fit-content;
+}
 .fieldplayer {
   width: 40px;
   height: 40px;
@@ -32,6 +36,10 @@ div {
   align-items: center;
   position: relative;
   text-align: center;
+  border: 2px solid;
+}
+.subadded {
+    border: solid yellow 2px;
 }
 .inactive {
     background-color: white;
@@ -39,6 +47,28 @@ div {
 
 .pcactive {
     background-color: red;
+}
+.fieldname {
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    position:absolute;
+    top:-25px;
+}
+.subname {
+    color: yellow;
+    font-size: medium;
+    font-weight: bold;
+    
+    position:absolute;
+    bottom: -25px;
+}
+.pendingsub {
+    color: gray;
+    font-size: medium;
+    font-weight: bold;
+    position:absolute;
+    top:25px;
 }
 .fieldactive {
     background-color: darkblue;
@@ -49,43 +79,43 @@ div {
    top: 325px; 
 }
 .hf {
-    top: 170px;
+    top: 158px;
     left: 452px;
 }
 .lf {
-    top: 350px;
+    top: 348px;
     left: 452px;
 }
 .cam {
-    top: 190px;
+    top: 179px;
     left: 376px;
 }
 .rm {
-    top: 310px;
+    top: 260px;
     left: 302px;
 }
 .lm {
-    top: -100px;
+    top: -98px;
     left: 302px;
 }
 .cdm {
-    top: 100px;
+    top: 82px;
     left: 250px;
 }
 .cbl {
-    top: -130px;
+    top: -160px;
     left: 120px;
 }
 .cbr {
-    top: 30px;
+    top: -20px;
     left: 120px;
 }
 .lhb {
-    top: -170px;
+    top: -200px;
     left: 160px
 }
 .rhb {
-    top: 70px;
+    top: 28px;
     left: 160px;
 }
 .playercard {
