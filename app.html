@@ -8,36 +8,80 @@
             var GameData = {
                 Players: [
                     {
-                        "name": "Kaleb",
-                        "num": 0
+                        "name": "Aiden",
+                        "num": 17
                     },
                     {
-                        "name": "David",
-                        "num": 13
+                        "name": "Beau",
+                        "num": 52
                     },
                     {
-                        "name": "Parker",
-                        "num": 13
-                    },
-                    {
-                        "name": "Porter",
-                        "num": 13
-                    },
-                    {
-                        "name": "Emerson",
-                        "num": 11
-                    },
-                    {
-                        "name": "Joe",
-                        "num": 1
-                    },
-                    {
-                        "name": "Erik",
+                        "name": "Benjamin",
                         "num": 3
                     },
                     {
+                        "name": "Conner",
+                        "num": 34
+                    },
+                    {
+                        "name": "Cylana",
+                        "num": 10
+                    },
+                    {
+                        "name": "David",
+                        "num": 80
+                    },
+                    {
+                        "name": "Emerson",
+                        "num": 9
+                    },
+                    {
+                        "name": "Erik",
+                        "num": 50
+                    },
+                    {
+                        "name": "Joe",
+                        "num": 83
+                    },
+                    {
+                        "name": "Kaleb",
+                        "num": 99
+                    },
+                    {
+                        "name": "Lake",
+                        "num": 55
+                    },
+                    {
+                        "name": "Luke",
+                        "num": 88
+                    },
+                    {
+                        "name": "Madison",
+                        "num": 27
+                    },
+                    {
+                        "name": "Natalie",
+                        "num": 29
+                    },
+                    {
                         "name": "Nathan",
-                        "num": 30
+                        "num": 1
+                    },
+                    {
+                        "name": "Parker",
+                        "num": 35
+                    },
+                    {
+                        "name": "Porter",
+                        "num": 44
+                    },
+                    {
+                        "name": "Siddhant",
+                        "num": 67
+                    },
+                    {
+                        "name": "Wyatt",
+                        "num": 19
                     }
                 ],
                 GK: {},
@@ -61,7 +105,7 @@
                 // Check if there is an active player
                 // or not.
                 if (playerCard.classList.contains("pcactive") === false) {
-                    var selPlay = playerCard.children["name"].textContent;
+                    var selPlay = playerCard.querySelector("#container #name").textContent;
                     // alert('selected: ' + selPlay)
                     GameData.Selected = GameData.Players.find(x => x.name === selPlay);
                 } else {
@@ -72,18 +116,15 @@
                 var playercards = Array.from(document.getElementById("bench").children);
                 playercards.forEach(eachPDiv => {
 
-                    if (eachPDiv.classList.contains("playercard")) {
+                    if (GameData.Selected && eachPDiv.id === GameData.Selected.name) {
                         // each player - if not selected fix style.
-                        const innerDiv = eachPDiv.querySelector('#name');
-                        if (GameData.Selected && innerDiv.innerHTML
-                            === GameData.Selected.name) {
                             eachPDiv.classList.add("pcactive");
 
                         } else {
                             eachPDiv.classList.remove("pcactive");
                         }
 
-                    }
+                    
 
                 });
             }
@@ -225,10 +266,8 @@
 
                     var d = document.createElement("div");
                     d.id = player.name;
-                    d.innerHTML = "<div id='name'>"
-                        + player.name
-                        + "</div><div id='playtime'>0</div><div id='pos'></div>";
-                    d.classList.add("playercard");
+                    d.innerHTML = "<div id='container'><div id='name' class='benchname'>" + player.name + "</div><p class='benchcardtext' id='playtime'>0</p><p class='benchcardtext' id='pos'>--</p></div>"
+                    d.classList.add("benchcard");
                     d.addEventListener('click', () => {
 
                         togglePlayer(d);
@@ -246,12 +285,14 @@
             <span>Total Game Time</span>
         </div>
         <div class="flexrow">
+            <div class="flexcol" id="leftside">
+            <div class="sectiontitle">Bench</div>
             <div class="bench" id="bench">
-                <div class="sectiontitle">Bench</div>
                 <script lang="javacsript">
                     renderBench(); 
                 </script>
                 <!-- End of Bench -->
+            </div>
             </div>
             <div id='field' class="field">
                 <div id="GK" class="fieldposition gk" onclick="assign(this)">
@@ -314,10 +355,10 @@
             <div>Game Summary</div>
         </div>
         <div class="flexrow">
-            <div>Action Buttons</div>
-            <button onclick='startTimer()'>Start</button>
-            <button onclick='makeSubs()'>SUBS</button>
-            <button onclick='saveStats()'>Save Data</button>
+            <div class="buttonpanel">Action Buttons</div>
+            <button class="actionbutton" onclick='startTimer()'>Start</button>
+            <button class="actionbutton" onclick='makeSubs()'>Set Subs</button>
+            <button class="actionbutton" onclick='saveStats()'>Save Data</button>
         </div>
     </body>
 </htnl>

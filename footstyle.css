@@ -11,7 +11,7 @@ h1 {
   color: blue;
 }
 p {
-  color: red;
+  color: darkgreen;
 }
 div {
     margin: 5px;
@@ -19,6 +19,10 @@ div {
 .flexrow {
     display: flex;
     flex-direction: row;
+}
+.flexcol {
+    display: flex;
+    flex-direction: column;
 }
 .field {
     height: 699px;
@@ -46,14 +50,18 @@ div {
 }
 
 .pcactive {
-    background-color: red;
+    background: red !important;
 }
 .fieldname {
     color: white;
     font-size: medium;
     font-weight: bold;
-    position:absolute;
-    top:-25px;
+    position: absolute;
+    top: -25px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 5px;
+    width: 65px;
+    text-align: center;
 }
 .subname {
     color: yellow;
@@ -121,4 +129,75 @@ div {
 .playercard {
     border: 1px solid red;
 
+}
+
+/* CSS */
+.buttonpanel {
+    margin-top: 1px;
+}
+
+.bench {
+    display: flex;
+    height: 765px;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.benchcard {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  background: white;
+  border-radius: 5px;
+  margin: 1px;
+  text-align: center;
+}
+
+.benchname {
+    padding-top: 9px;
+    line-height: 0%;
+}
+
+.benchcard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.benchcontainer {
+  /* padding: 2px 16px; */
+  padding: 1px;
+}
+
+.benchcardtext {
+    line-height: 0%;
+}
+
+.actionbutton {
+  background-color: initial;
+  background-image: linear-gradient(-180deg, #FF7E31, #E62C03);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 100%;
+  z-index: 9;
+  border: 0;
+  transition: box-shadow .2s;
+  margin: 10px;
+}
+
+.actionbutton:hover {
+  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
 }
