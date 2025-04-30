@@ -57,7 +57,8 @@ div {
     font-size: medium;
     font-weight: bold;
     position: absolute;
-    top: -25px;
+    top: -34;
+    left: -15;
     background: rgba(0, 0, 0, 0.25);
     padding: 5px;
     width: 65px;
@@ -67,8 +68,10 @@ div {
     color: yellow;
     font-size: medium;
     font-weight: bold;
-    
+    text-align: center;
+    width: 65px;
     position:absolute;
+    left: -10px;
     bottom: -25px;
 }
 .pendingsub {
